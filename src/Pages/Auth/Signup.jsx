@@ -50,9 +50,10 @@ function Signup(){
     }
 
     async function handleSubmit(){
-        setLoading(true)
+        
         if(!signupDetails.email || !signupDetails.name || !signupDetails.password ||!signupDetails.clientName ||!signupDetails.userType || !signupDetails.userStatus ) return 
         try {
+            setLoading(true)
             const response =await dispatch(signUp(signupDetails))
             console.log(response)
             if(response.payload) {navigate('/login')}
