@@ -1,18 +1,13 @@
-import HomeLayout from "../layout/HomeLayout"
+import { GiPencil } from "react-icons/gi";
 
+import Card from '../components/Card'
+import HomeLayout from "../layout/HomeLayout"
 function Home(){
     return (
         <HomeLayout>
-          <h1>hello</h1>
-          <h1>hello</h1>
-          <h1>hello</h1>
-          <h1>hello</h1>
-          <h1>hello</h1>
-          <h1>hello</h1>
-          <h1>hello</h1>
-          <h1>hello</h1>
-          <h1>hello</h1>
-          <h1>hello</h1>
+            <Card>
+                <GiPencil size={28} />
+            </Card>
            
         </HomeLayout>
         
