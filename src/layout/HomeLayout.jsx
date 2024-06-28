@@ -1,10 +1,11 @@
 
+import { useEffect } from "react";
+import toast from 'react-hot-toast';
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useDispatch,useSelector } from "react-redux";
 import { Link,useNavigate } from "react-router-dom";
 
 import { logout } from "../Redux/Slice/AuthSlice";
-
 function HomeLayout({children}){
 
     const authState = useSelector(state=>state.auth)
@@ -15,6 +16,13 @@ function HomeLayout({children}){
         dispatch(logout())
         navigate('/login')
     }
+    useEffect(()=>{
+        if(!authState.isLoggedIn){
+            toast.error('Please Login ')
+            navigate('/login')
+           
+        }
+    },[])
     return (
         <div className="min-h-[90vh] ">
             <div className="drawer absolute left-0 right-0 cursor-pointer">
