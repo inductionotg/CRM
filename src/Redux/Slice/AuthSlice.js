@@ -63,7 +63,7 @@ const authSlice = createSlice({
             localStorage.setItem("role",action.payload?.data?.userData?.userType)
             localStorage.setItem("isLoggedIn",true)
             localStorage.setItem("data",JSON.stringify(action.payload?.data?.userData))
-            localStorage.setItem("token",action.payload?.data?.token!=undefined)
+            localStorage.setItem("token",action.payload?.data?.token)
         })
     }
 })

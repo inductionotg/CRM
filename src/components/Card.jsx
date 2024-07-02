@@ -1,5 +1,7 @@
 
+
 function Card({children,status=50,borderColor='border-accent',titleText="Card",quantity=50,background="bg-primary",fontColor="text-white"}){
+   
     return (
         <div className={`bg-primary rounded-md w-64 h-44 flex flex-col ${background} py-5 border-b-8 ${borderColor}`}>
             <div className="flex justify-center items-center gap-5">
