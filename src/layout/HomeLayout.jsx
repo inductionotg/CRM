@@ -24,7 +24,7 @@ function HomeLayout({children}){
         }
     },[])
     return (
-        <div className="min-h-[90vh] flex justify-center">
+        <div className="min-h-[90vh] flex justify-center w-full">
             <div className="drawer absolute left-0 right-0 cursor-pointer">
                 <input id="my-drawer" type="checkbox" className="drawer-toggle" />
                 <div className="drawer-content">
@@ -34,8 +34,8 @@ function HomeLayout({children}){
                 <div className="drawer-side">
                     <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
                     <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
-                        <li><a>Sidebar Item 1</a></li>
-                        <li><a>Sidebar Item 2</a></li>
+                        <li><Link to='/viewtickets'>View All Tickets</Link></li>
+                        <li><Link to='/dashboard'>Dashboard</Link></li>
                         <div className="flex w-full justify-space items-center mt-10 gap-10">
                             {authState.isLoggedIn ? 
                             (
@@ -59,7 +59,7 @@ function HomeLayout({children}){
                
             </div>
             
-            <div className="flex items-start justify-center">
+            <div className="flex items-start justify-center w-full">
                 <div className="w-3/4 justify-center items-center">
                     {children}
                 </div>

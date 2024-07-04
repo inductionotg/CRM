@@ -1,38 +1,20 @@
-import { useEffect } from "react";
+
 import { GiPencil } from "react-icons/gi";
 import { ImCross } from "react-icons/im";
 import { TbProgress } from "react-icons/tb";
 import { TbPlaceholder } from "react-icons/tb";
 import { TiTickOutline } from "react-icons/ti";
-import { useDispatch, useSelector } from "react-redux";
 
 import Card from '../components/Card'
+import useTickets from "../hooks/useTickets";
 import HomeLayout from "../layout/HomeLayout"
-import { ticketThunk } from "../Redux/Slice/ticketSlice";
+
 function Home(){
-    const authState = useSelector(state=>state.auth)
-    console.log(authState.token)
-    const ticketState = useSelector((state)=>state.ticket)
-    console.log(ticketState)
-
-    const dispatch = useDispatch()
-
-    async function loadTickets(){
-        try {
-         const response = await dispatch(ticketThunk(ticketState))
-         console.log(response)
-        } catch (error) {
-            console.log(error)
-        }   
-    }
-   
-   
-    useEffect(()=>{
-        loadTickets()
-    },[authState.token])
+    const ticketState = useTickets()
+    console.log("cutsdom",ticketState)
     return (
         <HomeLayout>
-            <div className="flex gap-5 justify-center items-center mt-10 flex-wrap">
+           {ticketState.ticketDistribution && <div className="flex gap-5 justify-center items-center mt-10 flex-wrap">
                 <Card
                     titleText="Open"
                     quantity={ticketState.ticketDistribution.open}
@@ -73,7 +55,7 @@ function Home(){
     
             </div>
             
-           
+}
         </HomeLayout>
         
     )
