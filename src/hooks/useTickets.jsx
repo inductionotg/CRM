@@ -1,7 +1,8 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { useSearchParams } from "react-router-dom"
 
-import { ticketThunk } from "../Redux/Slice/ticketSlice"
+import { filterTickets,resetTickets,ticketThunk } from "../Redux/Slice/ticketSlice"
 
 function useTickets(){
     const authState = useSelector(state=>state.auth)
@@ -10,11 +11,22 @@ function useTickets(){
     console.log(ticketState)
 
     const dispatch = useDispatch()
+    const [searchParams] = useSearchParams()
 
     async function loadTickets(){
         try {
-         const response = await dispatch(ticketThunk(ticketState))
-         console.log(response)
+        if(ticketState.downloadedTickets.length===0)
+            {
+            const response = await dispatch(ticketThunk(ticketState))
+            console.log(response)
+            }
+        if(searchParams.get("status")){
+            dispatch(filterTickets({status:searchParams.get("status")}))
+        }
+        else{
+            dispatch(resetTickets())
+        }
+        
         } catch (error) {
             console.log(error)
         }   
@@ -22,11 +34,8 @@ function useTickets(){
    
    
     useEffect(()=>{
-        if(ticketState.ticket.length===0){
-            loadTickets()
-        }
-        
-    },[authState.token])
+            loadTickets() 
+    },[authState.token,searchParams.get("status")])
     console.log("dfdfdfdf",ticketState)
 
     return ticketState

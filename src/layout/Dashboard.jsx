@@ -1,16 +1,17 @@
+
 import { FaFileDownload } from "react-icons/fa";
+import { usePDF } from 'react-to-pdf';
 
 import useTickets from "../hooks/useTickets"
 import HomeLayout from "./HomeLayout"
-import { usePDF } from 'react-to-pdf';
 
 
 function Dashboard(){
   
     const ticketState = useTickets()
     console.log("dashbaord",ticketState)
-    const { toPDF, targetRef } = usePDF({filename: 'dashboard.pdf'});
-    const [searchParams] = useSearchParams()
+    const { toPDF, targetRef } = usePDF({filename: 'page.pdf'});
+    
     return (
         <>
             <HomeLayout>

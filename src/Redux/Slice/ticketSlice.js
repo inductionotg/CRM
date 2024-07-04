@@ -4,6 +4,7 @@ import toast from "react-hot-toast"
 import axiosInstance from "../../config/axiosInstance"
 
 const initialState = {
+    downloadedTickets:[],
     ticket:[],
     ticketDistribution:{
         open:0,
@@ -38,13 +39,32 @@ export const ticketThunk = createAsyncThunk('tickets/ticketThunk',async()=>{
 const ticketSlice = createSlice({
     name:'ticket',
     initialState,
-    reducers:{},
+    reducers:{
+        filterTickets:(state,actions)=>{
+            let  status = actions.payload.status.toLowerCase()
+            if(status === "in progress"){
+                status ='inProgress'
+            }
+            if(status === "on hold"){
+            
+                status ='onHold'
+            }
+            
+            console.log("hell",status)
+            state.ticket = state.downloadedTickets.filter((ticketrs)=>ticketrs.status===status)
+
+        },
+        resetTickets:(state,actions)=>{
+            state.ticket = state.downloadedTickets
+        }
+    },
     extraReducers:(builder)=>{
         builder
         .addCase(ticketThunk.fulfilled,(state,action)=>{
             console.log(state,action,"from builders")
             if(!action?.payload?.data) return 
             state.ticket = action?.payload?.data?.result
+            state.downloadedTickets = action?.payload?.data?.result
             const ticketData = action?.payload?.data?.result
             state.ticketDistribution={
                 open:0,
@@ -63,5 +83,5 @@ const ticketSlice = createSlice({
         })
     }
 })
-
+export const {filterTickets,resetTickets} = ticketSlice.actions
 export default ticketSlice.reducer

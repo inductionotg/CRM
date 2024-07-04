@@ -18,28 +18,28 @@ function Home(){
                 <Card
                     titleText="Open"
                     quantity={ticketState.ticketDistribution.open}
-                    status={ticketState.ticketDistribution.open/ticketState.ticket.length}
+                    status={ticketState.ticketDistribution.open/ticketState.downloadedTickets.length}
                     background="bg-orange-600"
                     icon={ <GiPencil size={28} />}
                 />
                 <Card
                     titleText="In Progress"
                     quantity={ticketState.ticketDistribution.inProgress}
-                    status={ticketState.ticketDistribution.inProgress/ticketState.ticket.length}
+                    status={ticketState.ticketDistribution.inProgress/ticketState.downloadedTickets.length}
                     background="bg-purple-600"
                     icon={ <TbProgress size={28} />}
                 />
                 <Card
                     titleText="Resolved"
                     quantity={ticketState.ticketDistribution.resolved}
-                    status={ticketState.ticketDistribution.resolved/ticketState.ticket.length}
+                    status={ticketState.ticketDistribution.resolved/ticketState.downloadedTickets.length}
                     background="bg-green-500"
                     icon={ <TiTickOutline size={28} />}
                 />
                 <Card
                     titleText="On Hold"
                     quantity={ticketState.ticketDistribution.onHold}
-                    status={ticketState.ticketDistribution.onHold/ticketState.ticket.length}
+                    status={ticketState.ticketDistribution.onHold/ticketState.downloadedTickets.length}
                     background="bg-yellow-600"
                     icon={ <TbPlaceholder size={28} />}
                 />
