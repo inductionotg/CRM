@@ -1,4 +1,5 @@
 
+import DataTable from "react-data-table-component"
 import { FaFileDownload } from "react-icons/fa";
 import { usePDF } from 'react-to-pdf';
 
@@ -12,6 +13,38 @@ function Dashboard(){
     console.log("dashbaord",ticketState)
     const { toPDF, targetRef } = usePDF({filename: 'page.pdf'});
     
+    const columns=[
+        {
+            name:'TicketId',
+            selector:row=>row._id
+        },
+        {
+            name:'Title',
+            selector:row=>row.title
+        },
+        {
+            name:'Description',
+            selector:row=>row.description
+        },
+        {
+            name:'Reporter',
+            selector:row=>row.assignedTo
+        },
+        {
+            name:'Priority',
+            selector:row=>row.ticketPriority,
+            sortable:true
+        },
+        {
+            name:'Asignee',
+            selector:row=>row.assignee
+        },
+        {
+            name:'status',
+            selector:row=>row.status
+        },
+       
+    ]
     return (
         <>
             <HomeLayout>
@@ -19,7 +52,7 @@ function Dashboard(){
                     <div className="bg-yellow-500 py-4 text-3xl w-full text-center font-bold text-black  ">
                     Ticket Records <FaFileDownload onClick={() => toPDF()}  className="inline"/>
                     </div>
-                    <div className="flex flex-col w-full" ref={targetRef}>
+                    {/*<div className="flex flex-col w-full" ref={targetRef}>
                         <div className="flex justify-between items-center gap-3 bg-purple-600 px-2 py-2 grid-cols-7">
                             <div className="table-title basis-[8%]">
                                 Ticket Id
@@ -72,7 +105,18 @@ function Dashboard(){
                                 )
                             })
                         }
+                        </div>*/
+                    }
+
+                    <div className="flex flex-col w-full" ref={targetRef}>
+                        { 
+                        ticketState && <DataTable
+                            columns={columns}
+                            data={ticketState.ticket}
+                            />
+                        }
                     </div>
+                    
                 </div>
             </HomeLayout>
         </>
