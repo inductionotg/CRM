@@ -18,7 +18,6 @@ const initialState = {
 export const ticketThunk = createAsyncThunk('tickets/ticketThunk',async()=>{
     try {
         const ty = localStorage.getItem('token')
-        console.log("rerer",ty)
         const response =  axiosInstance.get('getMyAssignedTickets',{
             headers:{
                 'x-access-token':ty
@@ -61,7 +60,7 @@ const ticketSlice = createSlice({
     extraReducers:(builder)=>{
         builder
         .addCase(ticketThunk.fulfilled,(state,action)=>{
-            console.log(state,action,"from builders")
+            
             if(!action?.payload?.data) return 
             state.ticket = action?.payload?.data?.result
             state.downloadedTickets = action?.payload?.data?.result
@@ -74,11 +73,11 @@ const ticketSlice = createSlice({
                 cancelled:0
             }
             ticketData.forEach(ticket => {
-                console.log(ticket)
+                
                 state.ticketDistribution[ticket.status] =  state.ticketDistribution[ticket.status]+1
                 
             });
-            console.log("ds",ticketData)
+            
 
         })
     }

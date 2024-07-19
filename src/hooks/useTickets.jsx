@@ -6,9 +6,8 @@ import { filterTickets,resetTickets,ticketThunk } from "../Redux/Slice/ticketSli
 
 function useTickets(){
     const authState = useSelector(state=>state.auth)
-    console.log(authState.token)
     const ticketState = useSelector((state)=>state.ticket)
-    console.log(ticketState)
+    
 
     const dispatch = useDispatch()
     const [searchParams] = useSearchParams()
@@ -18,7 +17,7 @@ function useTickets(){
         if(ticketState.downloadedTickets.length===0)
             {
             const response = await dispatch(ticketThunk(ticketState))
-            console.log(response)
+            
             }
         if(searchParams.get("status")){
             dispatch(filterTickets({status:searchParams.get("status")}))
@@ -36,7 +35,7 @@ function useTickets(){
     useEffect(()=>{
             loadTickets() 
     },[authState.token,searchParams.get("status")])
-    console.log("dfdfdfdf",ticketState)
+    
 
     return ticketState
 

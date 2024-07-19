@@ -1,7 +1,7 @@
 
-import { CategoryScale } from "chart.js";
+import { BarElement, CategoryScale, LinearScale } from "chart.js";
 import Chart from "chart.js/auto";
-import { Pie } from "react-chartjs-2";
+import { Bar, Line,Pie } from "react-chartjs-2";
 import { GiPencil } from "react-icons/gi";
 import { ImCross } from "react-icons/im";
 import { TbProgress } from "react-icons/tb";
@@ -9,27 +9,19 @@ import { TbPlaceholder } from "react-icons/tb";
 import { TiTickOutline } from "react-icons/ti";
 
 import Card from '../components/Card'
+import useTicketData from "../hooks/useTicketData";
 import useTickets from "../hooks/useTickets";
 import HomeLayout from "../layout/HomeLayout"
-Chart.register(CategoryScale);
+Chart.register(CategoryScale,LinearScale,BarElement);
 function Home(){
     const ticketState = useTickets()
-    console.log("cutsdom",ticketState)
-
-    const pieCharData = {
-        labels:Object.keys(ticketState.ticketDistribution),
-        fontColor:"white",
-        datasets:[
-            {
-                data:Object.values(ticketState.ticketDistribution),
-                backgroundColor:["yellow","red","green","blue","white"],
-                borderColor:["yellow","red","green","blue","white"]
-            }
-        ]
-    }
+    const [pieCharData,lineData, Bardata] = useTicketData()
     return (
         <HomeLayout>
-           {ticketState.ticketDistribution && <div className="flex gap-5 justify-center items-center mt-10 flex-wrap">
+          
+           {ticketState.ticketDistribution && 
+             <>
+            <div className="flex gap-5 justify-center items-center mt-10 flex-wrap">
                 <Card
                     titleText="Open"
                     quantity={ticketState.ticketDistribution.open}
@@ -66,13 +58,27 @@ function Home(){
                     icon={ <ImCross size={28} />}
                 />
                    
-                <div className="mt-10 flex justify-center items-center">
+               
+            </div>
+            <div className="flex justify-center items-center flex-col mt-10">
+                <div className="mt-10 ">
                     <div className="w-96 h-96">
                         <Pie data={pieCharData} />
                     </div>
                 </div>
-    
+                <div className="mt-10 ">
+                    <div className="w-[50rem]   bg-white">
+                        <Line  data={lineData} />
+                    </div>
+                </div>
+                <div className="mt-10 ">
+                    <div className="w-[50rem]  bg-red-500 ">
+                        <Bar  data={Bardata} />
+                    </div>
+                </div>
             </div>
+            
+            </>
             
 }
         </HomeLayout>

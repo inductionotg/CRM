@@ -9,6 +9,7 @@ import { logout } from "../Redux/Slice/AuthSlice";
 function HomeLayout({children}){
 
     const authState = useSelector(state=>state.auth)
+    console.log("authhh",authState)
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
@@ -36,6 +37,7 @@ function HomeLayout({children}){
                     <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
                         <li><Link to='/viewtickets'>View All Tickets</Link></li>
                         <li><Link to='/dashboard'>Dashboard</Link></li>
+                        {authState.role ==='admin'?<li><Link to='/users'>All Users</Link></li>:''}
                         <div className="flex w-full justify-space items-center mt-10 gap-10">
                             {authState.isLoggedIn ? 
                             (

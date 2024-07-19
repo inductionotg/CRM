@@ -18,8 +18,8 @@ function Card({icon,status,borderColor='border-accent',titleText="Card",quantity
                 <div className={`text-7xl  ${fontColor}` }>
                     {quantity}
                 </div>
-                <div className={`radial-progress ${fontColor}`} style={{ "--value": status*100 ,"--size":'4rem'}} role="progressbar">
-                    {status*100}%
+                <div className={`radial-progress ${fontColor}`} style={{ "--value": ( status*100).toFixed(2) ,"--size":'4rem'}} role="progressbar">
+                {(status*100).toFixed(2)} %
                 </div>
             </div>
 
