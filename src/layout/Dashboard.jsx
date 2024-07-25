@@ -1,14 +1,16 @@
 
+import {useState} from "react"
 import DataTable from "react-data-table-component"
 import { FaFileDownload } from "react-icons/fa";
 import { usePDF } from 'react-to-pdf';
 
+import TicketModal from "../components/TicketModal";
 import useTickets from "../hooks/useTickets"
 import HomeLayout from "./HomeLayout"
 
 
 function Dashboard(){
-  
+    const [ticketDisplay,setTicketDisplay] = useState({})
     const ticketState = useTickets()
     console.log("dashbaord",ticketState)
     const { toPDF, targetRef } = usePDF({filename: 'page.pdf'});
@@ -45,6 +47,7 @@ function Dashboard(){
         },
        
     ]
+    const ExpandedComponent = ({ data }) => <pre>{JSON.stringify(data, null, 2)}</pre>;
     return (
         <>
             <HomeLayout>
@@ -110,12 +113,22 @@ function Dashboard(){
 
                     <div className="flex flex-col w-full" ref={targetRef}>
                         { 
-                        ticketState && <DataTable
-                            columns={columns}
-                            data={ticketState.ticket}
+                            ticketState && 
+                            <DataTable
+                                onRowClicked={(row)=>{
+                                    setTicketDisplay(row)
+                                    document.getElementById('my_modal_2').showModal()
+                                }}
+                                columns={columns}
+                                data={ticketState.ticket}
+                                expandableRows
+			                    // eslint-disable-next-line no-mixed-spaces-and-tabs
+			                    expandableRowsComponent={ExpandedComponent}
                             />
                         }
                     </div>
+
+                    <TicketModal ticketDetails={ticketDisplay} key={ticketDisplay._id}/>
                     
                 </div>
             </HomeLayout>

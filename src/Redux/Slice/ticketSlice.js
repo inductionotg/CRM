@@ -32,9 +32,52 @@ export const ticketThunk = createAsyncThunk('tickets/ticketThunk',async()=>{
     } catch (error) {
         console.log(error)
     }
+})
+/* 
+export const updateTicketThunk = createAsyncThunk('update/updateTicketThunk',async(ticket)=>{
+    console.loh("ticket from update thunks",ticket)
+    try {
+        const ty = localStorage.getItem('token')
+        const response =  axiosInstance.patch(`ticket/${ticket._id}`,ticket,{
+            headers:{
+                'x-access-token':ty
+            }
+        })
+        toast.promise(response,{
+            success:"Updated Successfully",
+            pending:'Data is Loading...',
+            error:'Error while fetching the data'
+        })
+        return await response
+    } catch (error) {
+        console.log(error)
+    }  
+}) */
+    export const updateTicketThunk = createAsyncThunk(
+        'update/updateTicketThunk',
+        async (ticket) => {
+            console.log("ticket from update thunks", ticket);
+            try {
+                const ty = localStorage.getItem('token');
+                const response = await axiosInstance.patch(`ticket/${ticket._id}`, ticket, {
+                    headers: {
+                        'x-access-token': ty
+                    }
+                });
     
+                toast.promise(response, {
+                    success: "Updated Successfully",
+                    pending: 'Data is Loading...',
+                    error: 'Error while fetching the data'
+                });
     
-}) 
+                return response.data;
+            } catch (error) {
+                console.log(error);
+                throw error; // Ensure the error is propagated
+            }
+        }
+    );
 const ticketSlice = createSlice({
     name:'ticket',
     initialState,
@@ -80,7 +123,30 @@ const ticketSlice = createSlice({
             
 
         })
+        .addCase(updateTicketThunk.fulfilled,(state,action)=>{
+            const updatedTicket = action.payload.data.result
+            state.ticket = state.ticketList.map((tickets)=>{
+                if(tickets._id===updatedTicket._id) return updatedTicket
+                return tickets
+            })
+            state.downloadedTickets = state.downloadedTickets.map((tickets)=>{
+                if(tickets._id === updatedTicket._id) return updatedTicket
+                return tickets
+            })
+
+            state.ticketDistribution = {
+                open:0,
+                inProgress:0,
+                resolved:0,
+                onHold:0,
+                cancelled:0
+            }
+            state.downloadedTickets.forEach(tickets=>{
+                state.ticketDistribution[tickets.status] = state.ticketDistribution[tickets.status]+1
+            })
+        })
     }
+    
 })
 export const {filterTickets,resetTickets} = ticketSlice.actions
 export default ticketSlice.reducer
